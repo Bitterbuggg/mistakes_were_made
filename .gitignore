@@ -1,1 +1,4 @@
 node_modules
+dist/
+.DS_Store
+new_qcu_map-transformed.glb
