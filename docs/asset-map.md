@@ -3,9 +3,9 @@
 This document lists every GLB asset currently loaded in the running scene, where the file lives, how it is positioned in the world, and any runtime handling.
 
 ## Loading Flow
-- Scene: `src/components/scenes/NewQcuMapScene/NewQcuMapScene.jsx` renders a `<Canvas>` with `OrbitControls`. Interactions stay disabled until the **Enter Campus** button sets `campusEntered` to `true`.
+- Scene: `src/components/scenes/NewQcuMapScene/NewQcuMapScene.jsx` renders a `<Canvas>` with `OrbitControls`. Buildings are interactive immediately; hover shows the light-blue outline/label and click opens the modal.
 - Static environment: `src/components/scenes/NewQcuMapScene/QcuMapModels.jsx` loads `public/models/qcu_base.glb` at the origin with default rotation/scale.
-- Interactive buildings: `QcuMapModels` instantiates `<InteractiveBuilding>` for each GLB. The component (`InteractiveBuilding.jsx`) clones meshes/materials per instance, adds hover emissive highlight, and only forwards pointer/click handlers when `isInteractable` (after entering the campus).
+- Interactive buildings: `QcuMapModels` instantiates `<InteractiveBuilding>` for each GLB. The component (`InteractiveBuilding.jsx`) clones meshes/materials per instance, adds hover emissive highlight, and forwards pointer/click handlers immediately (campus is always interactable in the current build).
 - Preloading: All referenced GLBs are preloaded via `useGLTF.preload` to avoid hitches when the user enters the campus.
 
 ## Asset Positions (rendered in the current build)
@@ -59,16 +59,16 @@ World units are the Three.js units used in `@react-three/fiber`. Rotations are i
   - Scale: `0.518`
   - Notes: Scaled down to fit the intended footprint.
 
-- Main Hall `qcu_bldg3.glb`
+- Academic Building `qcu_bldg3.glb`
   - Building id: `cube010-building`
-  - Display name: Main Hall
+  - Display name: Academic Building
   - Position: `[3, 0.02, -7.3]`
   - Rotation: `[0, -1.571, 0]`
   - Scale: `0.602`
   - Notes: Scaled and rotated to align with adjacent buildings.
 
 ### Interaction behavior per building
-- Hover highlight: emissive color shifts to `0x4488ff` while hovered (after entering the campus). Original emissive values are restored on pointer out.
+- Hover highlight: emissive color shifts to `0x4488ff` while hovered. Original emissive values are restored on pointer out. A light-blue floating label shows the building's display name while hovered.
 - Click: opens the building modal defined in `NewQcuMapScene.jsx` (name, icon placeholder, description, `canEnter` flag). Scene transitions are TODO (`handleEnterBuilding` currently logs to console).
 
 ## Other bundled assets

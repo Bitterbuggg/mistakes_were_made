@@ -5,7 +5,6 @@ import { motion as Motion, AnimatePresence } from "framer-motion";
 import QcuMapModels from "./QcuMapModels";
 
 export default function NewQcuMapScene() {
-  const [campusEntered, setCampusEntered] = useState(false);
   const [showBuildingModal, setShowBuildingModal] = useState(null);
 
   // Building configurations
@@ -41,7 +40,7 @@ export default function NewQcuMapScene() {
       canEnter: true
     },
     "cube010-building": {
-      name: "Main Hall",
+      name: "Academic Building",
       icon: "🏛️",
       description: "Large multipurpose building.",
       canEnter: true
@@ -58,10 +57,6 @@ export default function NewQcuMapScene() {
     // Add navigation logic here when scenes are ready
   };
 
-  const handleEnterCampus = () => {
-    setCampusEntered(true);
-  };
-
   return (
     <div className="w-full h-full fixed top-0 left-0">
       <Canvas shadows camera={{ position: [0, 5, 10], fov: 55 }}>
@@ -71,7 +66,7 @@ export default function NewQcuMapScene() {
 
         <QcuMapModels 
           onBuildingClick={handleBuildingClick} 
-          campusEntered={campusEntered} 
+          buildingConfigs={buildingConfigs}
         />
         
         <OrbitControls 
@@ -80,20 +75,6 @@ export default function NewQcuMapScene() {
           enablePan={true}
         />
       </Canvas>
-
-      {/* Enter Campus Button */}
-      {!campusEntered && (
-        <div className="absolute bottom-10 left-1/2 transform -translate-x-1/2">
-          <Motion.button
-            onClick={handleEnterCampus}
-            className="px-8 py-4 bg-blue-500 text-white font-bold text-xl rounded-full hover:bg-blue-600 transition shadow-2xl"
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
-          >
-            Enter Campus
-          </Motion.button>
-        </div>
-      )}
 
       {/* Building Entry Modal */}
       <AnimatePresence>
