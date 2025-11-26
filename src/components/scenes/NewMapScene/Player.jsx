@@ -13,12 +13,12 @@ useGLTF.preload("./models/qcu_student_1.glb");
 
 export default function Player({ useStoredPosition = false }) {
   const playerRef = useRef();
-  const { camera, raycaster } = useThree();
+  const { camera } = useThree();
   const { playerPosition, setPlayerPosition } = useStore();
   
   // Movement state - use stored position only if explicitly told to (returning from building)
   // Otherwise use default position [0, 0, 5] (fresh start / clicking Enter Campus)
-  const [position, setPosition] = useState(useStoredPosition ? playerPosition : [0, 0, 5]);
+  const [position] = useState(useStoredPosition ? playerPosition : [0, 0, 5]);
   const velocity = useRef(new THREE.Vector3());
   const targetPosition = useRef(null);
   const moveSpeed = 0.03;
@@ -32,8 +32,7 @@ export default function Player({ useStoredPosition = false }) {
     d: false,
   });
 
-  // Camera offset - moved closer for smaller player
-  const cameraOffset = useRef(new THREE.Vector3(0, 1.5, 2.5));
+  // Camera lookAt helpers
   const cameraLookAt = useRef(new THREE.Vector3());
   const cameraAngle = useRef(0); // Horizontal rotation angle
   const cameraPitch = useRef(0.3); // Vertical angle (pitch)
@@ -49,14 +48,14 @@ export default function Player({ useStoredPosition = false }) {
   useEffect(() => {
     const handleKeyDown = (e) => {
       const key = e.key.toLowerCase();
-      if (keys.current.hasOwnProperty(key)) {
+      if (Object.prototype.hasOwnProperty.call(keys.current, key)) {
         keys.current[key] = true;
       }
     };
 
     const handleKeyUp = (e) => {
       const key = e.key.toLowerCase();
-      if (keys.current.hasOwnProperty(key)) {
+      if (Object.prototype.hasOwnProperty.call(keys.current, key)) {
         keys.current[key] = false;
       }
     };
@@ -191,7 +190,7 @@ export default function Player({ useStoredPosition = false }) {
         canvas.removeEventListener('mousemove', handleMouseMove);
         canvas.removeEventListener('mouseup', handleMouseUp);
         canvas.removeEventListener('contextmenu', handleContextMenu);
-        canvas.addEventListener('wheel', handleWheel);
+        canvas.removeEventListener('wheel', handleWheel);
       };
     }
   }, [camera]);

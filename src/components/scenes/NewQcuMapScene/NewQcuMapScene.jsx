@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Canvas } from "@react-three/fiber";
 import { OrbitControls } from "@react-three/drei";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion as Motion, AnimatePresence } from "framer-motion";
 import QcuMapModels from "./QcuMapModels";
 
 export default function NewQcuMapScene() {
@@ -84,28 +84,28 @@ export default function NewQcuMapScene() {
       {/* Enter Campus Button */}
       {!campusEntered && (
         <div className="absolute bottom-10 left-1/2 transform -translate-x-1/2">
-          <motion.button
+          <Motion.button
             onClick={handleEnterCampus}
             className="px-8 py-4 bg-blue-500 text-white font-bold text-xl rounded-full hover:bg-blue-600 transition shadow-2xl"
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
           >
             Enter Campus
-          </motion.button>
+          </Motion.button>
         </div>
       )}
 
       {/* Building Entry Modal */}
       <AnimatePresence>
         {showBuildingModal && buildingConfigs[showBuildingModal] && (
-          <motion.div
+          <Motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             className="absolute inset-0 flex items-center justify-center bg-black/40 pointer-events-auto"
             onClick={() => setShowBuildingModal(null)}
           >
-            <motion.div
+            <Motion.div
               initial={{ scale: 0.8, opacity: 0 }}
               animate={{ scale: 1, opacity: 1 }}
               exit={{ scale: 0.8, opacity: 0 }}
@@ -122,28 +122,28 @@ export default function NewQcuMapScene() {
               </p>
               <div className="space-y-3">
                 {buildingConfigs[showBuildingModal].canEnter ? (
-                  <motion.button
+                  <Motion.button
                     onClick={() => handleEnterBuilding(showBuildingModal)}
                     className="w-full px-6 py-3 bg-blue-500 text-white font-bold rounded-full hover:bg-blue-600 transition shadow-lg"
                     whileTap={{ scale: 0.95 }}
                   >
                     Enter {buildingConfigs[showBuildingModal].name}
-                  </motion.button>
+                  </Motion.button>
                 ) : (
                   <div className="w-full px-6 py-3 bg-gray-300 text-gray-500 font-bold rounded-full cursor-not-allowed">
                     Locked
                   </div>
                 )}
-                <motion.button
+                <Motion.button
                   onClick={() => setShowBuildingModal(null)}
                   className="w-full px-6 py-3 bg-gray-200 text-gray-700 font-medium rounded-full hover:bg-gray-300 transition"
                   whileTap={{ scale: 0.95 }}
                 >
                   Cancel
-                </motion.button>
+                </Motion.button>
               </div>
-            </motion.div>
-          </motion.div>
+            </Motion.div>
+          </Motion.div>
         )}
       </AnimatePresence>
     </div>

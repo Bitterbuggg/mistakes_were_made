@@ -1,9 +1,8 @@
-import React, { useMemo, useState } from 'react';
+import React, { useMemo } from 'react';
 import { useGLTF } from '@react-three/drei';
 
 export default function InteractiveBuilding({ 
   modelPath, 
-  buildingId, 
   position, 
   rotation = [0, 0, 0],
   scale = 1,
@@ -11,7 +10,6 @@ export default function InteractiveBuilding({
   onClick 
 }) {
   const { scene } = useGLTF(modelPath);
-  const [hovered, setHovered] = useState(false);
 
   // Clone the scene for this specific instance
   const clonedScene = useMemo(() => {
@@ -40,7 +38,7 @@ export default function InteractiveBuilding({
   const handlePointerOver = (e) => {
     if (!isInteractable) return;
     e.stopPropagation();
-    setHovered(true);
+    // setHovered(true);
     document.body.style.cursor = 'pointer';
     
     clonedScene.traverse((child) => {
@@ -53,7 +51,7 @@ export default function InteractiveBuilding({
   const handlePointerOut = (e) => {
     if (!isInteractable) return;
     e.stopPropagation();
-    setHovered(false);
+    // setHovered(false);
     document.body.style.cursor = 'default';
     
     clonedScene.traverse((child) => {
@@ -84,7 +82,4 @@ export default function InteractiveBuilding({
   );
 }
 
-// Preload function to be called for each building
-export function preloadBuilding(modelPath) {
-  useGLTF.preload(modelPath);
-}
+// Intentionally no exports other than default component to keep fast-refresh working
