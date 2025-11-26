@@ -1,8 +1,9 @@
 import React, { useState } from "react";
 import { Canvas } from "@react-three/fiber";
-import { OrbitControls } from "@react-three/drei";
 import { motion as Motion, AnimatePresence } from "framer-motion";
 import QcuMapModels from "./QcuMapModels";
+import Player from "./Player";
+import PlayerUI from "./PlayerUI";
 
 export default function NewQcuMapScene() {
   const [showBuildingModal, setShowBuildingModal] = useState(null);
@@ -59,7 +60,7 @@ export default function NewQcuMapScene() {
 
   return (
     <div className="w-full h-full fixed top-0 left-0">
-      <Canvas shadows camera={{ position: [0, 5, 10], fov: 55 }}>
+      <Canvas shadows camera={{ position: [0, 2.25, 4.5], fov: 60 }}>
         <color attach="background" args={["#a8d0ff"]} />
         <ambientLight intensity={0.6} />
         <directionalLight position={[5, 10, 5]} intensity={1} castShadow />
@@ -68,13 +69,11 @@ export default function NewQcuMapScene() {
           onBuildingClick={handleBuildingClick} 
           buildingConfigs={buildingConfigs}
         />
-        
-        <OrbitControls 
-          enableZoom={true} 
-          enableRotate={true} 
-          enablePan={true}
-        />
+
+        <Player />
       </Canvas>
+
+      <PlayerUI />
 
       {/* Building Entry Modal */}
       <AnimatePresence>
