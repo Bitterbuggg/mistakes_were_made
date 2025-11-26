@@ -1,8 +1,12 @@
-import React, { useMemo } from 'react';
-import { useGLTF } from '@react-three/drei';
+import React, { useMemo, useRef, useState } from 'react';
+import { Html, useGLTF } from '@react-three/drei';
+import * as THREE from 'three';
+import { useThree } from '@react-three/fiber';
 
 export default function InteractiveBuilding({ 
   modelPath, 
+  buildingId,
+  displayName,
   position, 
   rotation = [0, 0, 0],
   scale = 1,
@@ -10,6 +14,11 @@ export default function InteractiveBuilding({
   onClick 
 }) {
   const { scene } = useGLTF(modelPath);
+  const { camera } = useThree();
+  const [isHovered, setIsHovered] = useState(false);
+  const rootRef = useRef(null);
+  const labelGroupRef = useRef(null);
+  const labelPosition = useRef(new THREE.Vector3());
 
   // Clone the scene for this specific instance
   const clonedScene = useMemo(() => {
@@ -34,12 +43,28 @@ export default function InteractiveBuilding({
     return clone;
   }, [scene]);
 
+  // Estimate a consistent anchor for the hover label based on the model's bounds
+  const updateLabelFromEvent = (event) => {
+    if (!rootRef.current) return;
+    const worldPos = event.point.clone();
+    // Nudge toward camera so the label hovers above the hovered spot
+    const towardCamera = new THREE.Vector3().subVectors(camera.position, worldPos).normalize();
+    worldPos.add(towardCamera.multiplyScalar(0.2));
+    const localPos = worldPos.clone();
+    rootRef.current.worldToLocal(localPos);
+    labelPosition.current.copy(localPos);
+    if (labelGroupRef.current) {
+      labelGroupRef.current.position.copy(localPos);
+    }
+  };
+
   // Handle hover effect
   const handlePointerOver = (e) => {
     if (!isInteractable) return;
     e.stopPropagation();
-    // setHovered(true);
+    setIsHovered(true);
     document.body.style.cursor = 'pointer';
+    updateLabelFromEvent(e);
     
     clonedScene.traverse((child) => {
       if (child.isMesh && child.material.emissive) {
@@ -51,7 +76,7 @@ export default function InteractiveBuilding({
   const handlePointerOut = (e) => {
     if (!isInteractable) return;
     e.stopPropagation();
-    // setHovered(false);
+    setIsHovered(false);
     document.body.style.cursor = 'default';
     
     clonedScene.traverse((child) => {
@@ -67,18 +92,52 @@ export default function InteractiveBuilding({
     onClick?.();
   };
 
+  const handlePointerMove = (e) => {
+    if (!isInteractable) return;
+    if (!isHovered) return;
+    updateLabelFromEvent(e);
+  };
+
+  const labelText = displayName || buildingId;
+
   return (
-    <primitive
-      object={clonedScene}
-      position={position}
-      rotation={rotation}
-      scale={scale}
-      {...(isInteractable && {
-        onPointerOver: handlePointerOver,
-        onPointerOut: handlePointerOut,
-        onClick: handleClick
-      })}
-    />
+    <group ref={rootRef} position={position} rotation={rotation} scale={scale}>
+      <primitive
+        object={clonedScene}
+        {...(isInteractable && {
+          onPointerOver: handlePointerOver,
+          onPointerOut: handlePointerOut,
+          onPointerMove: handlePointerMove,
+          onClick: handleClick
+        })}
+      />
+
+      {isInteractable && isHovered && labelText && (
+        <group ref={labelGroupRef}>
+          <Html
+            center
+            sprite
+            distanceFactor={10}
+            style={{ pointerEvents: 'none' }}
+          >
+            <div
+              style={{
+                background: 'rgba(68, 136, 255, 0.92)',
+                color: '#f7fbff',
+                padding: '4px 8px',
+                borderRadius: '8px',
+                fontSize: '12px',
+                fontWeight: 600,
+                boxShadow: '0 4px 12px rgba(0, 0, 0, 0.18)',
+                whiteSpace: 'nowrap'
+              }}
+            >
+              {labelText}
+            </div>
+          </Html>
+        </group>
+      )}
+    </group>
   );
 }
 
