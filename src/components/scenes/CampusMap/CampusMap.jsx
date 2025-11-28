@@ -1,28 +1,30 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import { Canvas } from "@react-three/fiber";
+import { AnimatePresence } from "framer-motion";
 import { OrbitControls } from "@react-three/drei";
-import { motion as Motion, AnimatePresence } from "framer-motion";
+import { MOUSE } from "three";
 
 import CampusModels from "../../canvas/CampusModels";
+import Character from "../../canvas/Character";
 import BuildingModal from "../../ui/BuildingModal";
 import { buildingConfigs } from "../../../data/buildings";
 
 export default function CampusMap() {
-  const [campusEntered, setCampusEntered] = useState(false);
   const [showBuildingModal, setShowBuildingModal] = useState(null);
+  const [playerTarget, setPlayerTarget] = useState({ x: 0, y: 0, z: 5 });
+  const controlsRef = useRef();
 
   const handleBuildingClick = (buildingId) => {
     setShowBuildingModal(buildingId);
   };
 
+  const handleFloorClick = (point) => {
+    setPlayerTarget(point);
+  };
+
   const handleEnterBuilding = (buildingId) => {
     setShowBuildingModal(null);
     console.log(`Entering building: ${buildingId}`);
-    // Add navigation logic here when scenes are ready
-  };
-
-  const handleEnterCampus = () => {
-    setCampusEntered(true);
   };
 
   const handleCloseModal = () => {
@@ -36,31 +38,25 @@ export default function CampusMap() {
         <ambientLight intensity={0.6} />
         <directionalLight position={[5, 10, 5]} intensity={1} castShadow />
 
+        <OrbitControls 
+          ref={controlsRef}
+          enablePan={false}
+          rotateSpeed={0.4}
+          mouseButtons={{
+            LEFT: null,
+            MIDDLE: MOUSE.DOLLY,
+            RIGHT: MOUSE.ROTATE
+          }}
+        />
+
         <CampusModels 
           onBuildingClick={handleBuildingClick} 
-          campusEntered={campusEntered} 
+          onFloorClick={handleFloorClick}
         />
         
-        <OrbitControls 
-          enableZoom={true} 
-          enableRotate={true} 
-          enablePan={true}
-        />
+        <Character targetPosition={playerTarget} controlsRef={controlsRef} />
+        
       </Canvas>
-
-      {/* Enter Campus Button */}
-      {!campusEntered && (
-        <div className="absolute bottom-10 left-1/2 transform -translate-x-1/2">
-          <Motion.button
-            onClick={handleEnterCampus}
-            className="px-8 py-4 bg-blue-500 text-white font-bold text-xl rounded-full hover:bg-blue-600 transition shadow-2xl"
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
-          >
-            Enter Campus
-          </Motion.button>
-        </div>
-      )}
 
       {/* Building Entry Modal */}
       <AnimatePresence>

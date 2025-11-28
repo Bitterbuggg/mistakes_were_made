@@ -6,7 +6,7 @@ export default function InteractiveBuilding({
   position, 
   rotation = [0, 0, 0],
   scale = 1,
-  isInteractable, 
+  isInteractable = true, 
   onClick 
 }) {
   const { scene } = useGLTF(modelPath);

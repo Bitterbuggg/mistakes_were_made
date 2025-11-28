@@ -2,14 +2,23 @@ import React from 'react';
 import { useGLTF } from '@react-three/drei';
 import InteractiveBuilding from './InteractiveBuilding';
 
-export default function CampusModels({ onBuildingClick, campusEntered }) {
+export default function CampusModels({ onBuildingClick, onFloorClick }) {
   // Load the base map (non-interactive terrain/paths)
   const baseMap = useGLTF('./models/qcu_base.glb');
 
   return (
     <>
       {/* Base Map - Static environment */}
-      <primitive object={baseMap.scene} position={[0, 0, 0]} />
+      <primitive 
+        object={baseMap.scene} 
+        position={[0, 0, 0]} 
+        onClick={(e) => {
+          e.stopPropagation();
+          if (onFloorClick) {
+            onFloorClick(e.point);
+          }
+        }}
+      />
       
       {/* Interactive Buildings - Accurate positions from original map */}
       
@@ -20,7 +29,6 @@ export default function CampusModels({ onBuildingClick, campusEntered }) {
         position={[0.0, 0.02, 2.2]}
         rotation={[0, 0, 0]}
         scale={1}
-        isInteractable={campusEntered}
         onClick={() => onBuildingClick("techvoc")}
       />
       
@@ -31,7 +39,6 @@ export default function CampusModels({ onBuildingClick, campusEntered }) {
         position={[1, 0.02, -2]}
         rotation={[-Math.PI, 0, -Math.PI]}
         scale={1}
-        isInteractable={campusEntered}
         onClick={() => onBuildingClick("yellow-building")}
       />
       
@@ -42,7 +49,6 @@ export default function CampusModels({ onBuildingClick, campusEntered }) {
         position={[-1.259, 0.02, -4.72]}
         rotation={[0, 0, 0]}
         scale={1}
-        isInteractable={campusEntered}
         onClick={() => onBuildingClick("admin-building")}
       />
       
@@ -53,7 +59,6 @@ export default function CampusModels({ onBuildingClick, campusEntered }) {
         position={[-1.2, 0.02, -7.5]}
         rotation={[0, -1.571, 0]}
         scale={1}
-        isInteractable={campusEntered}
         onClick={() => onBuildingClick("bautista")}
       />
       
@@ -64,7 +69,6 @@ export default function CampusModels({ onBuildingClick, campusEntered }) {
         position={[3, 0.02, -4.6]}
         rotation={[0, -1.571, 0]}
         scale={0.518}
-        isInteractable={campusEntered}
         onClick={() => onBuildingClick("computer-lab")}
       />
       
@@ -75,7 +79,6 @@ export default function CampusModels({ onBuildingClick, campusEntered }) {
         position={[3, 0.02, -7.3]}
         rotation={[0, -1.571, 0]}
         scale={0.602}
-        isInteractable={campusEntered}
         onClick={() => onBuildingClick("cube010-building")}
       />
     </>
