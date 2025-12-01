@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { motion as Motion } from 'framer-motion';
+import { motion } from 'framer-motion';
 
 const questions = [
   {
@@ -67,7 +67,7 @@ export default function PhishingGame({ onClose }) {
 
   return (
     <div className="fixed inset-0 z-[100] flex items-center justify-center bg-black/80 backdrop-blur-sm p-4">
-      <Motion.div
+      <motion.div
         initial={{ scale: 0.9, opacity: 0 }}
         animate={{ scale: 1, opacity: 1 }}
         className="bg-white w-full max-w-2xl rounded-2xl shadow-2xl overflow-hidden"
@@ -138,7 +138,7 @@ export default function PhishingGame({ onClose }) {
             </div>
           )}
         </div>
-      </Motion.div>
+      </motion.div>
     </div>
   );
 }

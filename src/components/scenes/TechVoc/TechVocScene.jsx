@@ -1,7 +1,7 @@
 import React, { useState, useRef, useEffect } from "react";
 import { Canvas, useFrame } from "@react-three/fiber";
 import { OrbitControls, Html, Text } from "@react-three/drei";
-import { MOUSE, Vector3 } from "three";
+import { Vector3 } from "three";
 import Character from "../../canvas/Character";
 import PhishingGame from "./PhishingGame";
 
@@ -32,15 +32,7 @@ function Room() {
 }
 
 function Computer({ position }) {
-  const meshRef = useRef();
   const [hovered] = useState(false);
-
-  useFrame(() => {
-    // Simple bobbing animation for a marker above the computer
-    if (meshRef.current) {
-      // meshRef.current.rotation.y += 0.01;
-    }
-  });
 
   return (
     <group position={position}>

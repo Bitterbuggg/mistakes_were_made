@@ -58,7 +58,7 @@ export default function BuildingModal({ config, onClose, onEnter }) {
             animate={{ scale: 1, opacity: 1, y: 0 }}
             transition={{ duration: 0.25, ease: "easeOut", delay: 0.03 }}
             className="mx-auto mb-5 flex items-center justify-center rounded-xl bg-gradient-to-br from-emerald-400 via-green-400 to-teal-500"
-            style={{ width: '100px', height: '100px', fontSize: '80px' }}
+            style={{ width: '160px', height: '160px', fontSize: '96px' }}
           >
             <span>{config.icon || "🏢"}</span>
           </Motion.div>
