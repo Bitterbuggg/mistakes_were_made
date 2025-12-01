@@ -1,0 +1,13 @@
+- `LibraryScene/`: library safety training.
+  - `LibraryScene.jsx`: orchestrates scene lifecycle and exit handling.
+  - `LibraryEnvironment.jsx`: GLTF loader for the library.
+  - `LibraryPlayer.jsx`: movement/interaction logic inside the library.
+  - `LibraryUI.jsx`, `LibraryPlayerUI.jsx`: UI overlays for prompts and HUD.
+  - `scenarios.js`: library-specific learning scenarios.
+
+- `TechVocScene/`: phishing awareness training.
+  - `TechVocScene.jsx`: orchestrates scene lifecycle and exit handling.
+  - `TechVocEnvironment.jsx`: GLTF loader for the TechVoc building with interactive PCs.
+  - `TechVocPlayer.jsx`: movement/interaction logic inside the TechVoc building.
+  - `TechVocUI.jsx`, `TechVocPlayerUI.jsx`: UI overlays for prompts and HUD.
+  - `scenarios.js`: phishing quiz scenarios with email examples.
