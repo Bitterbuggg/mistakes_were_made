@@ -1,28 +1,19 @@
 import React, { useState } from 'react';
-import CampusMap from './components/scenes/CampusMap/CampusMap'; // Adjusted import path if necessary, assuming index.js exports it or direct import
-import TechVocScene from './components/scenes/TechVoc/TechVocScene';
+import CampusMap from './components/scenes/CampusMap/CampusMap';
 import './styles/index.css';
 
 export default function App() {
-  const [currentScene, setCurrentScene] = useState('campus');
+  // State kept for future scene expansions
+  const [currentScene] = useState('campus');
 
   const handleEnterBuilding = (buildingId) => {
-    if (buildingId === 'techvoc') {
-      setCurrentScene('techvoc');
-    } else {
-      console.log(`Entered ${buildingId} (No specific scene yet)`);
-      // Optional: Add a notification or generic interior here
-    }
+    console.log(`Entered ${buildingId} (No specific scene yet)`);
   };
 
   return (
     <div className="w-full h-screen relative bg-black">
       {currentScene === 'campus' && (
         <CampusMap onEnterBuilding={handleEnterBuilding} />
-      )}
-      
-      {currentScene === 'techvoc' && (
-        <TechVocScene onExit={() => setCurrentScene('campus')} />
       )}
     </div>
   );

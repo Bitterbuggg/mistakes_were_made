@@ -13,6 +13,7 @@ export default function CampusMap({ onEnterBuilding }) {
   const [showBuildingModal, setShowBuildingModal] = useState(null);
   const [playerTarget, setPlayerTarget] = useState({ x: 0, y: 0, z: 5 });
   const [hoveredBuilding, setHoveredBuilding] = useState(null); // State for hovered building
+  const [health, setHealth] = useState(3); // Health state (max 3)
   const controlsRef = useRef();
 
   const handleBuildingClick = (buildingId) => {
@@ -107,6 +108,38 @@ export default function CampusMap({ onEnterBuilding }) {
           </Motion.div>
         )}
       </AnimatePresence>
+
+      {/* Health Bar (Top Right) */}
+      <div className="absolute top-4 right-4 z-40">
+        <div 
+          style={{ 
+            backgroundColor: '#ffffff',
+            boxShadow: '0 2px 8px rgba(0, 0, 0, 0.1)',
+            padding: '8px 12px',
+            borderRadius: '8px',
+            border: '1px solid #e2e8f0'
+          }}
+        >
+          <div style={{ display: 'flex', gap: '8px', alignItems: 'center' }}>
+            <span style={{ fontSize: '12px', fontWeight: 'bold', color: '#374151' }}>HP</span>
+            <div style={{ display: 'flex', gap: '4px' }}>
+              {[...Array(3)].map((_, index) => (
+                <div
+                  key={index}
+                  style={{
+                    width: '20px',
+                    height: '28px',
+                    backgroundColor: index < health ? '#10b981' : '#e5e7eb',
+                    borderRadius: '4px',
+                    border: '1.5px solid #374151',
+                    transition: 'background-color 0.3s ease'
+                  }}
+                />
+              ))}
+            </div>
+          </div>
+        </div>
+      </div>
 
 
       {/* Building Entry Modal */}
