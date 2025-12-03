@@ -13,7 +13,21 @@ export default function DormStudent({ animation = "walking", position = [0, -0.3
 
   useEffect(() => {
     if (animation) play(animation);
-  }, [animation]);
+
+    // Fix for dark model appearance:
+    // In the absence of an Environment map, metallic materials appear very dark/black.
+    // We disable metalness to ensure the model responds to the simple ambient/directional lighting.
+    scene.traverse((child) => {
+      if (child.isMesh) {
+        child.castShadow = true;
+        child.receiveShadow = true;
+        if (child.material) {
+          child.material.metalness = 0;
+          child.material.roughness = 1;
+        }
+      }
+    });
+  }, [animation, scene]);
 
   useFrame((_, delta) => update(delta));
 
