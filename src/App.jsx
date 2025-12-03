@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import CampusMap from './components/scenes/CampusMap/CampusMap';
 import CompLabScene from './components/scenes/CompLabScene/CompLabScene';
 import DormScene from './components/scenes/DormScene/DormScene';
+import AcademicBuildingScene from './components/scenes/AcademicBuildingScene/AcademicBuildingScene';
 import './styles/index.css';
 
 export default function App() {
@@ -12,6 +13,8 @@ export default function App() {
       setCurrentScene('computer-lab');
     } else if (buildingId === 'techvoc') {
       setCurrentScene('techvoc');
+    } else if (buildingId === 'cube010-building') {
+      setCurrentScene('academic-building');
     } else {
       console.log(`${buildingId} scene not implemented yet`);
     }
@@ -33,6 +36,10 @@ export default function App() {
 
       {currentScene === 'techvoc' && (
         <DormScene onExit={handleExitBuilding} />
+      )}
+
+      {currentScene === 'academic-building' && (
+        <AcademicBuildingScene onExit={handleExitBuilding} />
       )}
     </div>
   );
