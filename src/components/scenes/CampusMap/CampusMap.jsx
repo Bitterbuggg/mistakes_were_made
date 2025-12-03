@@ -13,7 +13,7 @@ export default function CampusMap({ onEnterBuilding }) {
   const [showBuildingModal, setShowBuildingModal] = useState(null);
   const [playerTarget, setPlayerTarget] = useState({ x: 0, y: 0, z: 5 });
   const [hoveredBuilding, setHoveredBuilding] = useState(null); // State for hovered building
-  const [health, setHealth] = useState(3); // Health state (max 3)
+  const [health] = useState(3); // Health state (max 3)
   const controlsRef = useRef();
 
   const handleBuildingClick = (buildingId) => {

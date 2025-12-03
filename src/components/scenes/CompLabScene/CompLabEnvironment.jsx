@@ -1,6 +1,4 @@
 import React, { useRef, useState } from 'react';
-import { useGLTF } from '@react-three/drei';
-import * as THREE from 'three';
 
 const ASSET_BASE = import.meta.env.BASE_URL || '/';
 
@@ -10,9 +8,9 @@ export default function CompLabEnvironment({ onPCClick, onFloorClick }) {
 
   // PC positions inside Computer Lab building (adjust based on your model)
   const pcPositions = [
-    { id: 'pc1', position: [-2, 0.8, -1], scenario: 'phishing-email-1' },
-    { id: 'pc2', position: [0, 0.8, -1], scenario: 'phishing-email-2' },
-    { id: 'pc3', position: [2, 0.8, -1], scenario: 'phishing-email-3' },
+    { id: 'pc1', position: [-2, 0, -1], scenario: 'phishing-email-1' },
+    { id: 'pc2', position: [0, 0, -1], scenario: 'phishing-email-2' },
+    { id: 'pc3', position: [2, 0, -1], scenario: 'phishing-email-3' },
   ];
 
   const handlePCHover = (pcId) => {

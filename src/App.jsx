@@ -7,7 +7,6 @@ export default function App() {
   const [currentScene, setCurrentScene] = useState('campus');
 
   const handleEnterBuilding = (buildingId) => {
-    console.log(`Entering ${buildingId}`);
     if (buildingId === 'computer-lab') {
       setCurrentScene('computer-lab');
     } else {
