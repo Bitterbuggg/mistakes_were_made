@@ -4,6 +4,7 @@ import CompLabScene from './components/scenes/CompLabScene/CompLabScene';
 import DormScene from './components/scenes/DormScene/DormScene';
 import AcademicBuildingScene from './components/scenes/AcademicBuildingScene/AcademicBuildingScene';
 import BautistaScene from './components/scenes/BautistaScene/BautistaScene';
+import YellowBuildingScene from './components/scenes/YellowBuildingScene/YellowBuildingScene';
 import './styles/index.css';
 
 export default function App() {
@@ -18,6 +19,8 @@ export default function App() {
       setCurrentScene('academic-building');
     } else if (buildingId === 'bautista') {
       setCurrentScene('bautista');
+    } else if (buildingId === 'yellow-building') {
+      setCurrentScene('yellow-building');
     } else {
       console.log(`${buildingId} scene not implemented yet`);
     }
@@ -47,6 +50,10 @@ export default function App() {
 
       {currentScene === 'bautista' && (
         <BautistaScene onExit={handleExitBuilding} />
+      )}
+
+      {currentScene === 'yellow-building' && (
+        <YellowBuildingScene onExit={handleExitBuilding} />
       )}
     </div>
   );
