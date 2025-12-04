@@ -21,7 +21,7 @@ export const buildingConfigs = {
     name: "Bautista Hall",
     icon: "🎓",
     description: "Academic building for multiple departments and faculty rooms.",
-    canEnter: false
+    canEnter: true
   },
   "computer-lab": {
     name: "Computer Lab",

@@ -3,6 +3,7 @@ import CampusMap from './components/scenes/CampusMap/CampusMap';
 import CompLabScene from './components/scenes/CompLabScene/CompLabScene';
 import DormScene from './components/scenes/DormScene/DormScene';
 import AcademicBuildingScene from './components/scenes/AcademicBuildingScene/AcademicBuildingScene';
+import BautistaScene from './components/scenes/BautistaScene/BautistaScene';
 import './styles/index.css';
 
 export default function App() {
@@ -15,6 +16,8 @@ export default function App() {
       setCurrentScene('techvoc');
     } else if (buildingId === 'cube010-building') {
       setCurrentScene('academic-building');
+    } else if (buildingId === 'bautista') {
+      setCurrentScene('bautista');
     } else {
       console.log(`${buildingId} scene not implemented yet`);
     }
@@ -40,6 +43,10 @@ export default function App() {
 
       {currentScene === 'academic-building' && (
         <AcademicBuildingScene onExit={handleExitBuilding} />
+      )}
+
+      {currentScene === 'bautista' && (
+        <BautistaScene onExit={handleExitBuilding} />
       )}
     </div>
   );

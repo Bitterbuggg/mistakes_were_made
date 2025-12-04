@@ -1,65 +1,64 @@
-import React, { Suspense, useState, useRef } from 'react';
+import React, { useState } from 'react';
 import { Canvas } from '@react-three/fiber';
-import { OrbitControls } from '@react-three/drei';
-import { MOUSE } from 'three';
-import BautistaEnvironment from './BautistaEnvironment';
-import BautistaPlayer from './BautistaPlayer';
+import { Stars, PerspectiveCamera } from '@react-three/drei';
+import PasswordFallGame from './PasswordFallGame';
+import PasswordFallUI from './PasswordFallUI';
 
-const BautistaScene = ({ onBack }) => {
-  const [playerTarget, setPlayerTarget] = useState({ x: 0, y: 0, z: 0 });
-  const controlsRef = useRef();
+export default function BautistaScene({ onExit }) {
+  const [gameState, setGameState] = useState('start'); // start, playing, gameover, win
+  const [score, setScore] = useState(0);
+  const [lives, setLives] = useState(3);
 
-  const handleFloorClick = (point) => {
-    setPlayerTarget(point);
+  const handleStart = () => {
+    setScore(0);
+    setLives(3);
+    setGameState('playing');
+  };
+
+  const handleGameOver = () => {
+    setGameState('gameover');
+  };
+
+  const handleWin = () => {
+    setGameState('win');
   };
 
   return (
-    <div className="w-full h-full relative bg-gray-900">
-       {/* UI Overlay */}
-       <div className="absolute top-4 left-4 z-10">
-        <button 
-          onClick={onBack}
-          className="btn btn-primary text-white"
-        >
-          Back to Campus
-        </button>
-      </div>
-
-      <Canvas
-        camera={{ position: [0, 3, 6], fov: 50 }} // Slightly higher and further back for 3rd person view
-        shadows
-      >
-        <color attach="background" args={["#1a1a1a"]} />
-        <ambientLight intensity={0.7} />
-        <directionalLight 
-          position={[5, 10, 5]} 
-          intensity={1} 
-          castShadow 
-        />
+    <div style={{ position: 'relative', width: '100vw', height: '100vh', backgroundColor: '#111827' }}>
+      <Canvas shadows>
+        <PerspectiveCamera makeDefault position={[0, 0, 15]} fov={50} />
+        <color attach="background" args={['#111827']} />
+        <Stars radius={100} depth={50} count={5000} factor={4} saturation={0} fade speed={1} />
         
-        <Suspense fallback={null}>
-          <BautistaEnvironment onFloorClick={handleFloorClick} />
-          <BautistaPlayer 
-            targetPosition={playerTarget}
-            controlsRef={controlsRef}
+        <ambientLight intensity={0.7} />
+        <pointLight position={[10, 10, 10]} intensity={1} />
+        
+        {/* Game Logic */}
+        {gameState === 'playing' && (
+          <PasswordFallGame 
+            onScoreUpdate={setScore} 
+            onLivesUpdate={setLives}
+            onGameOver={handleGameOver}
+            onWin={handleWin}
           />
-        </Suspense>
+        )}
 
-        <OrbitControls 
-          ref={controlsRef}
-          makeDefault 
-          enablePan={false}
-          rotateSpeed={0.4}
-          mouseButtons={{
-            LEFT: null, // Disable left click for orbit (reserved for movement)
-            MIDDLE: MOUSE.DOLLY,
-            RIGHT: MOUSE.ROTATE
-          }}
-          target={[0, 1, 0]}
-        />
+        {/* Ground Line Visual */}
+        <mesh position={[0, -6, 0]}>
+          <boxGeometry args={[20, 0.2, 1]} />
+          <meshStandardMaterial color="#374151" />
+        </mesh>
+
       </Canvas>
+
+      <PasswordFallUI 
+        gameState={gameState}
+        score={score}
+        lives={lives}
+        onStart={handleStart}
+        onExit={onExit}
+        onRestart={handleStart}
+      />
     </div>
   );
-};
-
-export default BautistaScene;
+}
