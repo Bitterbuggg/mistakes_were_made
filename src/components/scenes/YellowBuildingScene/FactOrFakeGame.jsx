@@ -22,7 +22,7 @@ export default function FactOrFakeGame({ onScoreUpdate, onLivesUpdate, onGameOve
   
   const nextId = useRef(0);
   const timer = useRef(0);
-  const spawnRate = useRef(4.0); 
+  const spawnRate = useRef(6.0); 
   const gameSpeed = useRef(10); // Speed of gates moving towards player
 
   useFrame((state, delta) => {

@@ -115,7 +115,9 @@ const styles = {
     padding: '1rem',
     display: 'flex',
     justifyContent: 'space-between',
+    alignItems: 'flex-start',
     pointerEvents: 'none',
+    boxSizing: 'border-box',
   },
   scoreBox: {
     backgroundColor: 'rgba(31, 41, 55, 0.8)',
@@ -131,6 +133,8 @@ const styles = {
     padding: '0.5rem 1rem',
     borderRadius: '0.5rem',
     fontSize: '1.2rem',
+    marginRight: 'auto',
+    marginLeft: '1rem',
   },
   exitButton: {
     pointerEvents: 'auto',
@@ -140,5 +144,7 @@ const styles = {
     padding: '0.5rem 1rem',
     borderRadius: '0.5rem',
     cursor: 'pointer',
+    fontWeight: 'bold',
+    transition: 'background-color 0.2s',
   },
 };

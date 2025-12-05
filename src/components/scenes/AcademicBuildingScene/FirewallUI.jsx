@@ -35,59 +35,86 @@ export default function FirewallUI({ gameState, score, health, onStart, onExit, 
   return (
     <>
       {/* HUD: Score & Health */}
-      {gameState !== 'start' && (
-        <div style={{
-          position: 'absolute',
-          top: 0,
-          left: '50%',
-          transform: 'translateX(-50%)',
-          width: 'auto', // Adjust width to content
-          padding: '1rem',
-          display: 'flex',
-          justifyContent: 'center', // Center content horizontally
-          alignItems: 'flex-start',
-          pointerEvents: 'none',
-          zIndex: 10,
-          gap: '1.5rem', // Add some space between score and health
-        }}>
+      {gameState === 'playing' && (
+        <>
           <div style={{
-            backgroundColor: 'rgba(255, 255, 255, 0.9)',
-            backdropFilter: 'blur(4px)',
-            padding: '0.75rem 1rem', // Smaller padding
-            borderRadius: '0.75rem',
-            boxShadow: '0 10px 15px -3px rgba(0, 0, 0, 0.1)',
-            border: '2px solid #6366f1',
+            position: 'absolute',
+            top: 0,
+            left: '50%',
+            transform: 'translateX(-50%)',
+            width: 'auto', // Adjust width to content
+            padding: '1rem',
+            display: 'flex',
+            justifyContent: 'center', // Center content horizontally
+            alignItems: 'flex-start',
+            pointerEvents: 'none',
+            zIndex: 10,
+            gap: '1.5rem', // Add some space between score and health
           }}>
-            <div style={{ fontSize: '0.625rem', fontWeight: 'bold', color: '#6b7280', textTransform: 'uppercase' }}>Security Score</div> {/* Even smaller font for label */}
-            <div style={{ fontSize: '1.25rem', fontWeight: '900', color: '#4f46e5' }}>{score} / 1000</div> {/* Reduced score font size */}
+            <div style={{
+              backgroundColor: 'rgba(255, 255, 255, 0.9)',
+              backdropFilter: 'blur(4px)',
+              padding: '0.75rem 1rem', // Smaller padding
+              borderRadius: '0.75rem',
+              boxShadow: '0 10px 15px -3px rgba(0, 0, 0, 0.1)',
+              border: '2px solid #6366f1',
+            }}>
+              <div style={{ fontSize: '0.625rem', fontWeight: 'bold', color: '#6b7280', textTransform: 'uppercase' }}>Security Score</div> {/* Even smaller font for label */}
+              <div style={{ fontSize: '1.25rem', fontWeight: '900', color: '#4f46e5' }}>{score} / 1000</div> {/* Reduced score font size */}
+            </div>
+
+            <div style={{
+              backgroundColor: 'rgba(255, 255, 255, 0.9)',
+              backdropFilter: 'blur(4px)',
+              padding: '0.75rem 1rem', // Smaller padding
+              borderRadius: '0.75rem',
+              boxShadow: '0 10px 15px -3px rgba(0, 0, 0, 0.1)',
+              border: '2px solid #6366f1',
+            }}>
+               <div style={{ fontSize: '0.625rem', fontWeight: 'bold', color: '#6b7280', textTransform: 'uppercase', textAlign: 'right' }}>Server Integrity</div> {/* Even smaller font for label */}
+               <div style={{ display: 'flex', gap: '0.125rem', marginTop: '0.125rem' }}> {/* Smaller gap */}
+                 {[...Array(5)].map((_, i) => (
+                   <div 
+                     key={i} 
+                     style={{
+                       width: '1.25rem', // Reduced width
+                       height: '0.5rem', // Reduced height
+                       borderRadius: '9999px',
+                       transition: 'background-color 300ms',
+                       backgroundColor: (health / 20) > i ? '#22c55e' : '#d1d5db',
+                     }}
+                   />
+                 ))}
+               </div>
+               <div style={{ textAlign: 'right', marginTop: '0.125rem', fontWeight: 'bold', color: '#374151', fontSize: '0.75rem' }}>{health}%</div> {/* Reduced health percentage font size */}
+            </div>
           </div>
 
-          <div style={{
-            backgroundColor: 'rgba(255, 255, 255, 0.9)',
-            backdropFilter: 'blur(4px)',
-            padding: '0.75rem 1rem', // Smaller padding
-            borderRadius: '0.75rem',
-            boxShadow: '0 10px 15px -3px rgba(0, 0, 0, 0.1)',
-            border: '2px solid #6366f1',
-          }}>
-             <div style={{ fontSize: '0.625rem', fontWeight: 'bold', color: '#6b7280', textTransform: 'uppercase', textAlign: 'right' }}>Server Integrity</div> {/* Even smaller font for label */}
-             <div style={{ display: 'flex', gap: '0.125rem', marginTop: '0.125rem' }}> {/* Smaller gap */}
-               {[...Array(5)].map((_, i) => (
-                 <div 
-                   key={i} 
-                   style={{
-                     width: '1.25rem', // Reduced width
-                     height: '0.5rem', // Reduced height
-                     borderRadius: '9999px',
-                     transition: 'background-color 300ms',
-                     backgroundColor: (health / 20) > i ? '#22c55e' : '#d1d5db',
-                   }}
-                 />
-               ))}
-             </div>
-             <div style={{ textAlign: 'right', marginTop: '0.125rem', fontWeight: 'bold', color: '#374151', fontSize: '0.75rem' }}>{health}%</div> {/* Reduced health percentage font size */}
-          </div>
-        </div>
+          {/* Exit Button during gameplay */}
+          <button 
+            onClick={onExit}
+            style={{
+              position: 'absolute',
+              top: '1rem',
+              right: '1rem',
+              backgroundColor: '#ef4444',
+              color: 'white',
+              border: 'none',
+              padding: '0.5rem 1rem',
+              borderRadius: '0.5rem',
+              cursor: 'pointer',
+              fontWeight: 'bold',
+              fontSize: '0.875rem',
+              boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1)',
+              zIndex: 10,
+              transition: 'background-color 0.2s',
+            }}
+            onMouseOver={(e) => e.currentTarget.style.backgroundColor = '#dc2626'}
+            onMouseOut={(e) => e.currentTarget.style.backgroundColor = '#ef4444'}
+          >
+            Exit
+          </button>
+        </>
       )}
 
       {/* Start Screen */}
@@ -112,11 +139,12 @@ export default function FirewallUI({ gameState, score, health, onStart, onExit, 
                 onClick={onExit}
                 style={{
                   ...buttonBaseStyle,
-                  backgroundColor: 'transparent',
-                  color: '#475569', // text-slate-600
+                  backgroundColor: '#64748b',
+                  color: 'white',
+                  boxShadow: '0 10px 15px -3px rgba(0, 0, 0, 0.1)',
                 }}
-                onMouseOver={(e) => e.currentTarget.style.backgroundColor = '#f1f5f9'}
-                onMouseOut={(e) => e.currentTarget.style.backgroundColor = 'transparent'}
+                onMouseOver={(e) => e.currentTarget.style.backgroundColor = '#475569'}
+                onMouseOut={(e) => e.currentTarget.style.backgroundColor = '#64748b'}
               >
                 Exit
               </button>
@@ -159,11 +187,12 @@ export default function FirewallUI({ gameState, score, health, onStart, onExit, 
                 onClick={onExit}
                 style={{
                   ...buttonBaseStyle,
-                  backgroundColor: 'transparent',
-                  color: '#475569',
+                  backgroundColor: '#64748b',
+                  color: 'white',
+                  boxShadow: '0 10px 15px -3px rgba(0, 0, 0, 0.1)',
                 }}
-                onMouseOver={(e) => e.currentTarget.style.backgroundColor = '#f1f5f9'}
-                onMouseOut={(e) => e.currentTarget.style.backgroundColor = 'transparent'}
+                onMouseOver={(e) => e.currentTarget.style.backgroundColor = '#475569'}
+                onMouseOut={(e) => e.currentTarget.style.backgroundColor = '#64748b'}
               >
                 Exit
               </button>
