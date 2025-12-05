@@ -1,8 +1,21 @@
 import React, { useState } from 'react';
 import { Canvas } from '@react-three/fiber';
-import { OrbitControls, Stars } from '@react-three/drei';
+import { OrbitControls, Stars, useTexture } from '@react-three/drei';
 import FirewallGame from './FirewallGame';
 import FirewallUI from './FirewallUI';
+
+const ASSET_BASE = import.meta.env.BASE_URL || '/';
+
+function FirewallCenter() {
+  const texture = useTexture(`${ASSET_BASE}textures/firewall.png`);
+  
+  return (
+    <mesh position={[0, 0, 0]} rotation={[-Math.PI / 2, 0, 0]}>
+      <planeGeometry args={[4, 3]} />
+      <meshBasicMaterial map={texture} transparent={true} />
+    </mesh>
+  );
+}
 
 export default function AcademicBuildingScene({ onExit }) {
   const [gameState, setGameState] = useState('start'); // start, playing, gameover, win
@@ -46,11 +59,8 @@ export default function AcademicBuildingScene({ onExit }) {
             />
           )}
 
-          {/* Central Server Visual (Always visible or only during game?) Let's keep it simple */}
-          <mesh position={[0, 0, 0]} receiveShadow>
-            <cylinderGeometry args={[1, 1.2, 2, 32]} />
-            <meshStandardMaterial color="#4f46e5" emissive="#4338ca" emissiveIntensity={0.5} />
-          </mesh>
+          {/* Central Firewall Image */}
+          <FirewallCenter />
           <gridHelper args={[30, 30, 0x444444, 0x222222]} />
         </Canvas>
       </div>
