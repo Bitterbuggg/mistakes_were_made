@@ -28,7 +28,7 @@ export default function FallingItem({ position, text, isSecure, speed, onMiss, o
         onPointerOut={() => (document.body.style.cursor = 'auto')}
       >
         {/* Clickable Area */}
-        <boxGeometry args={[4, 1, 0.5]} />
+        <boxGeometry args={[6, 2, 0.5]} />
         <meshBasicMaterial transparent opacity={0.1} color={isSecure ? 'green' : 'red'} />
         
         {/* Text Display */}
