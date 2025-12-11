@@ -24,6 +24,19 @@ export default function DormScene({ onExit }) {
   const [phase, setPhase] = useState("intro"); // intro → quiz → outro → done
   const [index, setIndex] = useState(0);
 
+  // Randomize questions on mount, ensuring Boss is always last
+  const [scenarios] = useState(() => {
+    const nonBoss = dormScenarios.filter((s) => !s.isBoss);
+    const boss = dormScenarios.filter((s) => s.isBoss);
+
+    // Shuffle non-boss
+    for (let i = nonBoss.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [nonBoss[i], nonBoss[j]] = [nonBoss[j], nonBoss[i]];
+    }
+    return [...nonBoss, ...boss];
+  });
+
   const [cameraTarget, setCameraTarget] = useState("ernesto");
 
   const studentRef = useRef();
@@ -35,7 +48,7 @@ export default function DormScene({ onExit }) {
   const [modalData, setModalData] = useState(null); // { message, type }
   const [showExitPrompt, setShowExitPrompt] = useState(false);
 
-  const scenario = dormScenarios[index] || {};
+  const scenario = scenarios[index] || {};
 
   const [studentAnim, setStudentAnim] = useState("Idle");
   const [bossAnim, setBossAnim] = useState("Idle.1");
@@ -110,7 +123,7 @@ export default function DormScene({ onExit }) {
 
       setTimeout(() => {
         setModalData(null); // Close modal
-        if (index < dormScenarios.length - 1) {
+        if (index < scenarios.length - 1) {
           setIndex((i) => i + 1);
         } else {
           setUiData(null);
