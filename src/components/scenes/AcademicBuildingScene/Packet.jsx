@@ -1,8 +1,9 @@
 import React, { useRef } from 'react';
 import { useFrame } from '@react-three/fiber';
 import { Vector3 } from 'three';
+import { Text } from '@react-three/drei';
 
-export default function Packet({ position, type, speed, onHitCenter, onClick }) {
+export default function Packet({ position, type, tag, speed, onHitCenter, onClick }) {
   const group = useRef();
   const visual = useRef();
   const hasHit = useRef(false);
@@ -38,6 +39,22 @@ export default function Packet({ position, type, speed, onHitCenter, onClick }) 
 
   return (
     <group ref={group} position={position}>
+      {/* Label Tag */}
+      {tag && (
+        <Text
+          position={[0, 1.2, 0]} // Float slightly above
+          rotation={[-Math.PI / 2, 0, 0]} // Face up towards camera
+          fontSize={0.4}
+          color={type === 'malware' ? '#fca5a5' : '#86efac'} // Light red / Light green
+          anchorX="center"
+          anchorY="middle"
+          outlineWidth={0.02}
+          outlineColor="#000000"
+        >
+          {tag}
+        </Text>
+      )}
+
       {/* Larger Hit Area (Invisible Sphere) */}
       <mesh 
         onPointerDown={(e) => {

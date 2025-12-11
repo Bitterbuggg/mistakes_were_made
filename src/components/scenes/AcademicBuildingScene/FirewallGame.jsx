@@ -2,6 +2,16 @@ import React, { useState, useRef } from 'react';
 import { useFrame } from '@react-three/fiber';
 import Packet from './Packet';
 
+const MALWARE_TAGS = [
+  "User Datagram Flood", "Synchronization Flood", "Web Request Flood", "Botnet", 
+  "Malicious Software", "Ransomware Attack", "Deceptive Email", "Ping of Death"
+];
+
+const SAFE_TAGS = [
+  "Web Request", "Secure Shell Login", "Electronic Mail", "Data Storage", 
+  "User Authentication", "Application Request", "File Synchronization", "Data Backup"
+];
+
 export default function FirewallGame({ onScoreUpdate, onHealthUpdate, onGameOver, onWin }) {
   const [packets, setPackets] = useState([]);
   const nextId = useRef(0);
@@ -31,6 +41,10 @@ export default function FirewallGame({ onScoreUpdate, onHealthUpdate, onGameOver
     // 60% chance of Malware, 40% Safe
     const type = Math.random() > 0.4 ? 'malware' : 'safe'; 
     
+    // Random tag
+    const tags = type === 'malware' ? MALWARE_TAGS : SAFE_TAGS;
+    const tag = tags[Math.floor(Math.random() * tags.length)];
+
     // Random speed variation
     const speed = 3 + Math.random() * 2;
     
@@ -41,6 +55,7 @@ export default function FirewallGame({ onScoreUpdate, onHealthUpdate, onGameOver
       id: nextId.current++,
       position: [x, yPos, z],
       type,
+      tag,
       speed
     };
     

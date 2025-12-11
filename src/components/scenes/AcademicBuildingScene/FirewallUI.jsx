@@ -121,20 +121,46 @@ export default function FirewallUI({ gameState, score, health, onStart, onExit, 
       {gameState === 'start' && (
         <div style={{
           ...overlayStyle,
-          backgroundColor: 'rgba(15, 23, 42, 0.8)', // bg-slate-900/80
+          backgroundColor: 'rgba(15, 23, 42, 0.95)', // Darker background for readability
           backdropFilter: 'blur(4px)',
         }}>
           <div style={{
             ...cardStyle,
+            maxWidth: '36rem', // Increased width for content
             borderColor: '#6366f1', // border-indigo-500
+            textAlign: 'left', // Left align text for better reading
           }}>
-            <div style={{ fontSize: '3.75rem', marginBottom: '1rem' }}>🛡️</div>
-            <h1 style={{ fontSize: '1.875rem', fontWeight: '900', color: '#1e293b', marginBottom: '0.5rem' }}>Firewall Defense</h1>
-            <p style={{ color: '#475569', marginBottom: '1.5rem' }}>
-              Protect the server! Click on the <span style={{ color: '#ef4444', fontWeight: 'bold' }}>Red Malware</span> to destroy them. 
-              Let the <span style={{ color: '#16a34a', fontWeight: 'bold' }}>Green Safe Files</span> reach the center.
-            </p>
-            <div style={{ display: 'flex', gap: '1rem', justifyContent: 'center' }}>
+            <div style={{ textAlign: 'center', fontSize: '3rem', marginBottom: '0.5rem' }}>🛡️</div>
+            <h1 style={{ textAlign: 'center', fontSize: '2rem', fontWeight: '900', color: '#1e293b', marginBottom: '1rem' }}>Firewall Defense</h1>
+            
+            <div style={{ marginBottom: '1.5rem', fontSize: '0.95rem', color: '#334155', lineHeight: '1.5' }}>
+              <p style={{ marginBottom: '0.5rem' }}>
+                <strong>What is a Firewall?</strong>
+              </p>
+              <p>
+                A Firewall is a network security system that monitors and controls incoming and outgoing network traffic based on predetermined security rules. It establishes a barrier between a trusted network and an untrusted network, such as the Internet.
+              </p>
+            </div>
+
+            <div style={{ marginBottom: '1.5rem', backgroundColor: '#f8fafc', padding: '1rem', borderRadius: '0.5rem', border: '1px solid #e2e8f0' }}>
+              <p style={{ fontWeight: 'bold', color: '#1e293b', marginBottom: '0.5rem' }}>How to Play:</p>
+              <ul style={{ listStyleType: 'disc', paddingLeft: '1.5rem', margin: 0, color: '#475569', fontSize: '0.9rem', display: 'flex', flexDirection: 'column', gap: '0.25rem' }}>
+                <li>
+                  Your goal is to protect the Central Server from a DDoS attack.
+                </li>
+                <li>
+                  <strong>CLICK</strong> on <span style={{ color: '#ef4444', fontWeight: 'bold' }}>RED Packets</span> (Malware) to destroy them before they hit the server.
+                </li>
+                <li>
+                  <strong>IGNORE</strong> the <span style={{ color: '#16a34a', fontWeight: 'bold' }}>GREEN Packets</span> (Safe Traffic). Let them reach the server to maintain operations.
+                </li>
+                <li>
+                  Blocking safe traffic or letting malware through will damage the system!
+                </li>
+              </ul>
+            </div>
+
+            <div style={{ display: 'flex', gap: '1rem', justifyContent: 'center', marginTop: '2rem' }}>
               <button 
                 onClick={onExit}
                 style={{
