@@ -11,11 +11,10 @@ import RoomSelectionModal from "../TriangleScene/RoomSelectionModal";
 import { buildingConfigs } from "../../../data/buildings";
 import { roomConfigs } from "../../../data/rooms";
 
-export default function CampusMap({ onEnterBuilding }) {
+export default function CampusMap({ onEnterBuilding, playerPosition, setPlayerPosition }) {
   const [showBuildingModal, setShowBuildingModal] = useState(null);
   const [showRoomSelection, setShowRoomSelection] = useState(false);
-  const [playerTarget, setPlayerTarget] = useState({ x: 0, y: 0, z: 5 });
-  const [hoveredBuilding, setHoveredBuilding] = useState(null); 
+  const [hoveredBuilding, setHoveredBuilding] = useState(null);
   const controlsRef = useRef();
 
   const handleBuildingClick = (buildingId) => {
@@ -27,7 +26,7 @@ export default function CampusMap({ onEnterBuilding }) {
   };
 
   const handleFloorClick = (point) => {
-    setPlayerTarget(point);
+    setPlayerPosition(point);
   };
 
   const handleEnterBuilding = () => {
@@ -72,7 +71,7 @@ export default function CampusMap({ onEnterBuilding }) {
           <ambientLight intensity={0.6} />
           <directionalLight position={[5, 10, 5]} intensity={1} castShadow />
 
-          <OrbitControls 
+          <OrbitControls
             ref={controlsRef}
             enablePan={false}
             rotateSpeed={0.4}
@@ -83,15 +82,15 @@ export default function CampusMap({ onEnterBuilding }) {
             }}
           />
 
-          <CampusModels 
-            onBuildingClick={handleBuildingClick} 
+          <CampusModels
+            onBuildingClick={handleBuildingClick}
             onFloorClick={handleFloorClick}
             onBuildingHover={handleBuildingHover} // Pass hover handlers
             onBuildingHoverOut={handleBuildingHoverOut} // Pass hover handlers
           />
-          
-          <Character targetPosition={playerTarget} controlsRef={controlsRef} />
-          
+
+          <Character targetPosition={playerPosition} controlsRef={controlsRef} />
+
         </Canvas>
       </div>
 
@@ -126,8 +125,8 @@ export default function CampusMap({ onEnterBuilding }) {
             transition={{ duration: 0.2 }}
             className="absolute bottom-10 left-1/2 transform -translate-x-1/2 pointer-events-none z-40"
           >
-            <div 
-              style={{ 
+            <div
+              style={{
                 backgroundColor: '#ffffff',
                 boxShadow: '0 10px 30px rgba(0, 0, 0, 0.2)',
                 padding: '16px 40px',
@@ -147,17 +146,17 @@ export default function CampusMap({ onEnterBuilding }) {
       {/* Building Entry Modal */}
       <AnimatePresence>
         {showBuildingModal && buildingConfigs[showBuildingModal] && (
-          <BuildingModal 
+          <BuildingModal
             config={buildingConfigs[showBuildingModal]}
             onClose={handleCloseModal}
             onEnter={handleEnterBuilding}
           />
         )}
         {showRoomSelection && (
-           <RoomSelectionModal 
-             onClose={handleCloseModal}
-             onSelectRoom={handleEnterRoom}
-           />
+          <RoomSelectionModal
+            onClose={handleCloseModal}
+            onSelectRoom={handleEnterRoom}
+          />
         )}
       </AnimatePresence>
     </>

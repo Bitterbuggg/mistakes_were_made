@@ -71,27 +71,27 @@ export default function FirewallUI({ gameState, score, health, onStart, onExit, 
               boxShadow: '0 10px 15px -3px rgba(0, 0, 0, 0.1)',
               border: '2px solid #6366f1',
             }}>
-               <div style={{ fontSize: '0.625rem', fontWeight: 'bold', color: '#6b7280', textTransform: 'uppercase', textAlign: 'right' }}>Server Integrity</div> {/* Even smaller font for label */}
-               <div style={{ display: 'flex', gap: '0.125rem', marginTop: '0.125rem' }}> {/* Smaller gap */}
-                 {[...Array(5)].map((_, i) => (
-                   <div 
-                     key={i} 
-                     style={{
-                       width: '1.25rem', // Reduced width
-                       height: '0.5rem', // Reduced height
-                       borderRadius: '9999px',
-                       transition: 'background-color 300ms',
-                       backgroundColor: (health / 20) > i ? '#22c55e' : '#d1d5db',
-                     }}
-                   />
-                 ))}
-               </div>
-               <div style={{ textAlign: 'right', marginTop: '0.125rem', fontWeight: 'bold', color: '#374151', fontSize: '0.75rem' }}>{health}%</div> {/* Reduced health percentage font size */}
+              <div style={{ fontSize: '0.625rem', fontWeight: 'bold', color: '#6b7280', textTransform: 'uppercase', textAlign: 'right' }}>Server Integrity</div> {/* Even smaller font for label */}
+              <div style={{ display: 'flex', gap: '0.125rem', marginTop: '0.125rem' }}> {/* Smaller gap */}
+                {[...Array(5)].map((_, i) => (
+                  <div
+                    key={i}
+                    style={{
+                      width: '1.25rem', // Reduced width
+                      height: '0.5rem', // Reduced height
+                      borderRadius: '9999px',
+                      transition: 'background-color 300ms',
+                      backgroundColor: (health / 20) > i ? '#22c55e' : '#d1d5db',
+                    }}
+                  />
+                ))}
+              </div>
+              <div style={{ textAlign: 'right', marginTop: '0.125rem', fontWeight: 'bold', color: '#374151', fontSize: '0.75rem' }}>{health}%</div> {/* Reduced health percentage font size */}
             </div>
           </div>
 
           {/* Exit Button during gameplay */}
-          <button 
+          <button
             onClick={onExit}
             style={{
               position: 'absolute',
@@ -132,13 +132,13 @@ export default function FirewallUI({ gameState, score, health, onStart, onExit, 
           }}>
             <div style={{ textAlign: 'center', fontSize: '3rem', marginBottom: '0.5rem' }}>🛡️</div>
             <h1 style={{ textAlign: 'center', fontSize: '2rem', fontWeight: '900', color: '#1e293b', marginBottom: '1rem' }}>Firewall Defense</h1>
-            
+
             <div style={{ marginBottom: '1.5rem', fontSize: '0.95rem', color: '#334155', lineHeight: '1.5' }}>
               <p style={{ marginBottom: '0.5rem' }}>
-                <strong>What is a Firewall?</strong>
+                <strong>Why are Firewalls Important?</strong>
               </p>
               <p>
-                A Firewall is a network security system that monitors and controls incoming and outgoing network traffic based on predetermined security rules. It establishes a barrier between a trusted network and an untrusted network, such as the Internet.
+                Firewalls are essential for protecting networks from cyber threats. They block unauthorized access, prevent malware and hackers from infiltrating systems, filter harmful traffic, and safeguard sensitive data. Without a firewall, your network is vulnerable to DDoS attacks, data breaches, and other malicious activities.
               </p>
             </div>
 
@@ -161,7 +161,7 @@ export default function FirewallUI({ gameState, score, health, onStart, onExit, 
             </div>
 
             <div style={{ display: 'flex', gap: '1rem', justifyContent: 'center', marginTop: '2rem' }}>
-              <button 
+              <button
                 onClick={onExit}
                 style={{
                   ...buttonBaseStyle,
@@ -174,7 +174,7 @@ export default function FirewallUI({ gameState, score, health, onStart, onExit, 
               >
                 Exit
               </button>
-              <button 
+              <button
                 onClick={onStart}
                 style={{
                   ...buttonBaseStyle,
@@ -209,7 +209,7 @@ export default function FirewallUI({ gameState, score, health, onStart, onExit, 
               The server was overwhelmed by malware.
             </p>
             <div style={{ display: 'flex', gap: '1rem', justifyContent: 'center' }}>
-              <button 
+              <button
                 onClick={onExit}
                 style={{
                   ...buttonBaseStyle,
@@ -222,7 +222,7 @@ export default function FirewallUI({ gameState, score, health, onStart, onExit, 
               >
                 Exit
               </button>
-              <button 
+              <button
                 onClick={onRestart}
                 style={{
                   ...buttonBaseStyle,
@@ -257,7 +257,7 @@ export default function FirewallUI({ gameState, score, health, onStart, onExit, 
               You successfully filtered the network traffic.
             </p>
             <div style={{ display: 'flex', gap: '1rem', justifyContent: 'center' }}>
-               <button 
+              <button
                 onClick={onExit}
                 style={{
                   ...buttonBaseStyle,

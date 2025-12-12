@@ -13,6 +13,7 @@ import './styles/index.css';
 export default function App() {
   const [currentScene, setCurrentScene] = useState('campus');
   const [currentRoomId, setCurrentRoomId] = useState(null);
+  const [playerPosition, setPlayerPosition] = useState({ x: 0, y: 0, z: 5 });
 
   const handleEnterBuilding = (buildingId) => {
     if (buildingId === 'computer-lab') {
@@ -43,7 +44,11 @@ export default function App() {
   return (
     <div className="w-full h-screen relative bg-black">
       {currentScene === 'campus' && (
-        <CampusMap onEnterBuilding={handleEnterBuilding} />
+        <CampusMap
+          onEnterBuilding={handleEnterBuilding}
+          playerPosition={playerPosition}
+          setPlayerPosition={setPlayerPosition}
+        />
       )}
 
       {currentScene === 'computer-lab' && (
@@ -71,9 +76,9 @@ export default function App() {
       )}
 
       {currentScene === 'room-explorer' && currentRoomId && (
-        <RoomExplorerScene 
-          roomConfig={roomConfigs[currentRoomId]} 
-          onExit={handleExitBuilding} 
+        <RoomExplorerScene
+          roomConfig={roomConfigs[currentRoomId]}
+          onExit={handleExitBuilding}
         />
       )}
     </div>
